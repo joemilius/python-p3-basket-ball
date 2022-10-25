@@ -182,3 +182,76 @@ def game_dict():
             ]
         }
     }
+home_team = game_dict()['home']
+away_team = game_dict()['away']
+all_players = home_team['players'] + away_team['players']
+
+def num_points_per_game(player_name):
+    for player in all_players:
+        if (player['name'] == player_name):
+            return player['points_per_game']
+    pass
+
+def player_age(player_name):
+    for player in all_players:
+        if (player['name'] == player_name):
+            return player['age']
+    pass
+
+def team_colors(team_name):
+    if(team_name == home_team['team_name']):
+        return home_team['colors']
+    else:
+        return away_team['colors']
+    pass
+
+def team_names():
+    return [home_team['team_name'], away_team['team_name']]
+    pass
+
+def player_numbers(team_name):
+    jersey_numbers = []
+    if (team_name == home_team['team_name']):
+        for player in home_team['players']:
+            jersey_numbers.append(player['number'])
+    else:
+        for player in away_team['players']:
+            jersey_numbers.append(player['number'])
+
+    return jersey_numbers
+    pass
+
+def player_stats(player_name):
+    for player in all_players:
+        if (player['name'] == player_name):
+            return player
+    pass
+
+def average_rebounds_by_shoe_brand():
+    brand_rebounds = {}
+    brand_rebounds_string = ''
+    total_rebounds = 0
+    for player in all_players:
+        if player['shoe_brand'] in brand_rebounds:
+            brand_rebounds[player['shoe_brand']].append(player['rebounds_per_game'])
+        else:
+            brand_rebounds[player['shoe_brand']] = [player['rebounds_per_game']]
+
+    for brand in brand_rebounds:
+        total_rebounds = 0
+
+        for rebounds in brand_rebounds[brand]:
+            total_rebounds += rebounds
+        rounded_average = round(total_rebounds/len(brand_rebounds[brand]), 2)
+        if len(str(rounded_average).split('.')[-1]) < 2:
+            print(f'{brand}:  {rounded_average}0')
+            brand_rebounds_string += f'{brand}:  {rounded_average}0\n'
+        else:
+            print(f'{brand}:  {rounded_average}')
+            brand_rebounds_string += f'{brand}:  {rounded_average}\n'
+        
+    
+    return brand_rebounds_string
+    pass
+
+average_rebounds_by_shoe_brand()
